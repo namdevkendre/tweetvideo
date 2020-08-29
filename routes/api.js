@@ -2,11 +2,13 @@
 
 var express = require('express'),
     apiRouter = express.Router(),
-    videoRoutes = require('./video');
+    twitterRoutes = require('./twitter');
 
 var apiWrapper = function (app) {
     app.use('/api/v1', apiRouter);
-    apiRouter.post('/upload', videoRoutes.uploadVideo);
+    apiRouter.post('/twitter/uploadVideo', twitterRoutes.uploadVideo);
+    apiRouter.get('/twitter/statuses/user_timeline', twitterRoutes.twitterTimeline);
+    
 }
 
 module.exports = apiWrapper;

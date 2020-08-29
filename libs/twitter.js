@@ -101,7 +101,20 @@ let TwitterWrapper = (function() {
                 });
         });
     };
-
+    
+    funcs.getUserTimeline = function() {
+        return new Promise(function(resolve, reject) {
+            var params = {screen_name: 'nodejs'};
+            client.get('statuses/user_timeline', params, function(error, tweets, response) {
+                if (!error) {
+                    resolve(tweets);
+                } else {
+                    console.log(error);
+                    reject(error);
+                }
+            });
+        });
+    };
     return funcs;
 })();
 

@@ -1,10 +1,9 @@
 const formidable = require('formidable'),
     ffmpeg = require('fluent-ffmpeg'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    Twitter = require('../libs/twitter.js');
 
-const Twitter = require('../libs/twitter.js');
-
-let videoWrapper = (function() {
+let twiiterWrapper = (function() {
 
     function createClip(file) {
         return new Promise(function(resolve, reject) {
@@ -43,10 +42,21 @@ let videoWrapper = (function() {
                     res.status(400).send(err);
                 });
         });
-    }
+    };
+
+    let _twitterTimeline = function(req, res){
+        Twitter.getUserTimeline()
+            .then(function(tweets) {
+                res.status(200).send(tweets);
+            }).catch(function(error) {
+                res.status(400).send(err);
+            });
+    };
+
     return {
-        uploadVideo: _uploadVideo
+        uploadVideo: _uploadVideo,
+        twitterTimeline: _twitterTimeline
     }
 })();
 
-module.exports = videoWrapper;
+module.exports = twiiterWrapper;
